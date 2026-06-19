@@ -1,7 +1,8 @@
-import React, { useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import "./App.css";
 import SearchBar from "../searchbar/SearchBar";
 import { Playlist } from "../Playlist/Playlist";
+import SearchResults from "../SearchResults/SearchResults";
 
 const App = () => {
   const [searchResults, setSearchResults] = useState([]);
