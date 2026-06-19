@@ -3,6 +3,7 @@ import "./App.css";
 import SearchBar from "../searchbar/SearchBar";
 import { Playlist } from "../Playlist/Playlist";
 import SearchResults from "../SearchResults/SearchResults";
+import Spotify from "../"
 
 const App = () => {
   const [searchResults, setSearchResults] = useState([]);
@@ -13,7 +14,7 @@ const App = () => {
     Spotify.search(term).then(setSearchResults);
   }, []);
 
-  const addTrack = useCallBack(
+  const addTrack = useCallback(
     (track) => {
       if (playlistTracks.some((savedTrack) => savedTrack.id === track.id))
         return;
@@ -24,11 +25,19 @@ const App = () => {
 
   const removeTrack = useCallback((track) => {
     setPlaylistTracks((prevTracks) =>
-      prevTrracks.filter((currentTrack) => currentTrack.id !== track.id),
+      prevTracks.filter((currentTrack) => currentTrack.id !== track.id),
     );
   }, []);
 
   const updatePlaylistName = useCallback(() => {
+    const trackUris = playlistTracks.map((track) => track.uri);
+    Spotify.savePlaylist(playlistName, trackUris).then(() => {
+      setPlaylistName("New Playlist");
+      setPlaylistTracks([]);
+    });
+  }, [playlistName, playlistTracks]);
+
+  const savePlaylist = useCallback(() => {
     const trackUris = playlistTracks.map((track) => track.uri);
     Spotify.savePlaylist(playlistName, trackUris).then(() => {
       setPlaylistName("New Playlist");
